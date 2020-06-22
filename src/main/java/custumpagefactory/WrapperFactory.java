@@ -1,4 +1,4 @@
-package decorator;
+package custumpagefactory;
 
 import elements.PageElement;
 import org.openqa.selenium.WebElement;

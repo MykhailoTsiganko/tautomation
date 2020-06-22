@@ -1,4 +1,4 @@
-package decorator;
+package custumpagefactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
@@ -8,12 +8,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import elements.PageElement;
-import factory.DriverFactory;
 import factory.DriverProvider;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.DefaultFieldDecorator;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
@@ -21,7 +19,7 @@ import org.openqa.selenium.support.pagefactory.ElementLocator;
 public class ElementDecorator extends DefaultFieldDecorator {
 
     public ElementDecorator(DriverProvider provider) {
-        super(new DefaultElementLocatorFactory(provider.get(DriverFactory.getDiver())));
+        super(new ElementLocatorFactoryImpl(provider));
     }
 
     @Override

@@ -1,13 +1,10 @@
 package factory;
 
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.DriverManagerType;
 import org.openqa.selenium.WebDriver;
 
-
 import java.util.concurrent.TimeUnit;
-
 
 public class DriverFactory {
     private static WebDriver DRIVER;
