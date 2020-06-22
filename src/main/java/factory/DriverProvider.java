@@ -5,6 +5,6 @@ import org.openqa.selenium.WebDriver;
 
 @FunctionalInterface
 public interface DriverProvider {
-    WebDriver get(WebDriver diver);
+    SearchContext get(WebDriver diver);
 }
 

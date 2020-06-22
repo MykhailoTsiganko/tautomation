@@ -18,20 +18,20 @@ public class DriverFactory {
 
     }
 
-    public static void initDriver()  {
+    public static void initDriver() {
         String browser = System.getProperty("browser");
         WebDriver driver = null;
         DriverManagerType driverType = DriverManagerType.CHROME;
-        if (browser.equals("firefox")) {
+        if (browser != null && browser.equals("firefox")) {
             driverType = DriverManagerType.FIREFOX;
-        } else if ((browser.equals("edge"))) {
+        } else if (browser != null && browser.equals("edge")) {
             driverType = DriverManagerType.EDGE;
         }
         WebDriverManager.getInstance(driverType).setup();
         try {
             Class<?> chromeClass = Class.forName(driverType.browserClass());
             driver = (WebDriver) chromeClass.newInstance();
-        }catch (ClassNotFoundException|InstantiationException|IllegalAccessException e){
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         assert driver != null;

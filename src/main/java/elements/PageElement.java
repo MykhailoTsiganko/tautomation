@@ -8,7 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public abstract class PageElement {
+public class PageElement {
     protected final int DEFAULT_VISIBILITY_TIME = 10;
     protected WebElement element;
 
@@ -46,7 +46,7 @@ public abstract class PageElement {
         executor.executeScript("arguments[0].click();", element);
     }
 
-    public void sendKeys(String... keys) {
+    public void sendKeys(CharSequence... keys) {
         this.element.sendKeys(keys);
     }
 

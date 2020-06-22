@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import elements.PageElement;
-import example.elements.Element;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
