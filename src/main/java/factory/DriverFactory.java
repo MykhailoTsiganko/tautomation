@@ -1,10 +1,18 @@
 package factory;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.github.bonigarcia.wdm.config.DriverManagerType;
+import io.github.bonigarcia.wdm.config.OperatingSystem;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+
 
 public class DriverFactory {
     private static WebDriver DRIVER;
@@ -15,26 +23,36 @@ public class DriverFactory {
 
     }
 
-    public static void initDriver() {
-        String browser = System.getProperty("browser");
-        WebDriver driver = null;
-        DriverManagerType driverType = DriverManagerType.CHROME;
-        if (browser != null && browser.equals("firefox")) {
-            driverType = DriverManagerType.FIREFOX;
-        } else if (browser != null && browser.equals("edge")) {
-            driverType = DriverManagerType.EDGE;
-        }
-        WebDriverManager.getInstance(driverType).setup();
-        try {
-            Class<?> chromeClass = Class.forName(driverType.browserClass());
-            driver = (WebDriver) chromeClass.newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        assert driver != null;
+    private static void initDriver() {
+        String device = System.getProperty("device");
+        WebDriver driver;
+       driver = createWebDriver(device);
         driver.manage().window().maximize();
         setWait(driver);
         DRIVER = driver;
+    }
+
+    private static WebDriver createWebDriver(String device) {
+        if ("firefox".equals(device)) {
+            WebDriverManager.firefoxdriver().setup();
+            return new FirefoxDriver();
+        } else if ("edge".equals(device)) {
+            WebDriverManager.edgedriver().operatingSystem(OperatingSystem.WIN).setup();
+            return new EdgeDriver();
+        }
+        ChromeOptions options = new ChromeOptions();
+        if("mobile".equals(device)) {
+            setChromeEmulation(options);
+        }
+        WebDriverManager.chromedriver().setup();
+        return new ChromeDriver(options);
+    }
+
+    private static void setChromeEmulation(ChromeOptions options) {
+        Map<String, String> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceName", "iPad");
+        String emulator = "mobileEmulation";
+        options.setExperimentalOption(emulator, mobileEmulation);
     }
 
     public static WebDriver getDiver() {
