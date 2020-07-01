@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.Random;
 
-public class BoxWebPage extends AbstractBasePage  implements StrategyBox{
+public class CartWebPage extends AbstractBasePage{
     @FindBy(css = ".main-goods__title")
     private List<PageElement> listOfGoods;
     @FindBy(xpath = "//h1[@class='product__title']")
@@ -14,7 +14,7 @@ public class BoxWebPage extends AbstractBasePage  implements StrategyBox{
     @FindBy(xpath = "//span[normalize-space()='Купити']//ancestor::button")
     private PageElement buyButton;
     @FindBy(xpath = "//a[@class='cart-modal__title']")
-    private List<PageElement> goodsInBox;
+    private List<PageElement> goodsInCart;
 
 
     public void openRandomGood(){
@@ -26,10 +26,10 @@ public class BoxWebPage extends AbstractBasePage  implements StrategyBox{
         goodsTitle.waitForVisibility();
         return goodsTitle.getText();
     }
-    public void moveGoodToBox(){
+    public void moveGoodToCart(){
         buyButton.click();
     }
-    public List<PageElement> getAllTitleInBox(){
-        return goodsInBox;
+    public List<PageElement> getAllTitleInCart(){
+        return goodsInCart;
     }
 }
