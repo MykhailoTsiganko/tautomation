@@ -1,18 +1,19 @@
 package bo;
 
+import com.google.inject.Inject;
 import elements.PageElement;
 import factory.DriverFactory;
-import org.testng.Assert;
 import page.CartWebPage;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CartActions {
-    private final CartWebPage boxPage;
+    @Inject
+    private final CartWebPage cartPage;
 
-    public CartActions() {
-        boxPage = new CartWebPage();
+    public CartActions(CartWebPage cartWebPage) {
+        cartPage = cartWebPage;
     }
 
     public void openWebSite(String url) {
@@ -20,19 +21,20 @@ public class CartActions {
     }
 
     public void choseRandomGoods() {
-        boxPage.openRandomGood();
+        cartPage.openRandomGood();
     }
 
     public String getGoodTitle() {
-        return boxPage.getTitleOfGood();
+        return cartPage.getTitleOfGood();
     }
 
     public void moveGoodToCart() {
-        boxPage.moveGoodToCart();
+        cartPage.moveGoodToCart();
     }
 
     public List<String> getAllTitleInCart() {
-        return boxPage.getAllTitleInCart()
+        cartPage.getAllTitleInCart().forEach(PageElement::waitForVisibility);
+        return cartPage.getAllTitleInCart()
                 .stream()
                 .map(PageElement::getText)
                 .collect(Collectors.toList());

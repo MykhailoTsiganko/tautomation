@@ -27,6 +27,7 @@ public class CartWebPage extends AbstractBasePage{
         return goodsTitle.getText();
     }
     public void moveGoodToCart(){
+        buyButton.waitForClickable();
         buyButton.click();
     }
     public List<PageElement> getAllTitleInCart(){

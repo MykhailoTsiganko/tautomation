@@ -10,28 +10,15 @@ import validators.CartValidator;
 
 import java.util.List;
 
-public class GoodsInCartTest {
-    private CartActions cartActions;
-    private CartValidator validator;
-
-    @BeforeMethod
-    public void setUp(){
-        cartActions = new CartActions();
-        validator = new CartValidator();
-    }
+public class GoodsInCartTest extends BaseTest {
 
     @Test(description = "move random good to cart")
-    public void moveGoodsToCart(){
+    public void moveGoodsToCart() {
         cartActions.openWebSite(PropertyFile.getProperty("website"));
         cartActions.choseRandomGoods();
         String title = cartActions.getGoodTitle();
         cartActions.moveGoodToCart();
         List<String> titleList = cartActions.getAllTitleInCart();
-        validator.verifySelectedGoodIsInCart(titleList,title);
-    }
-
-    @AfterMethod
-    public void tearDown(){
-        DriverFactory.quitDriver();
+        validator.verifySelectedGoodIsInCart(titleList, title);
     }
 }
