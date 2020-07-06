@@ -2,6 +2,7 @@ package tests;
 
 import bo.CartActions;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import config.PropertyFile;
 import modules.CartPageModule;
 import modules.CartValidatorModule;
@@ -12,16 +13,10 @@ import validators.CartValidator;
 import java.util.List;
 
 public class GoodsInCartTest extends BaseTest {
+    @Inject
     private CartActions cartActions;
+    @Inject
     private CartValidator validator;
-
-    @BeforeMethod
-    public void initialize() {
-        injector = Guice.createInjector(new CartPageModule());
-        cartActions = injector.getInstance(CartActions.class);
-        injector = Guice.createInjector(new CartValidatorModule());
-        validator = injector.getInstance(CartValidator.class);
-    }
 
     @Test(description = "move random good to cart")
     public void moveGoodsToCart() {
