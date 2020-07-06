@@ -10,11 +10,7 @@ import java.util.stream.Collectors;
 
 public class CartActions {
     @Inject
-    private final CartWebPage cartPage;
-
-    public CartActions(CartWebPage cartWebPage) {
-        cartPage = cartWebPage;
-    }
+    private CartWebPage cartPage;
 
     public void openWebSite(String url) {
         DriverFactory.getDiver().get(url);
