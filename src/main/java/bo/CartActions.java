@@ -1,38 +1,42 @@
 package bo;
 
+import com.google.inject.Inject;
 import elements.PageElement;
 import factory.DriverFactory;
-import org.testng.Assert;
+import io.qameta.allure.Step;
 import page.CartWebPage;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CartActions {
-    private final CartWebPage boxPage;
+    @Inject
+    private CartWebPage cartPage;
 
-    public CartActions() {
-        boxPage = new CartWebPage();
-    }
-
+    @Step("open website : {url}")
     public void openWebSite(String url) {
         DriverFactory.getDiver().get(url);
     }
 
+    @Step("select random good from main page and open it")
     public void choseRandomGoods() {
-        boxPage.openRandomGood();
+        cartPage.openRandomGood();
     }
 
+    @Step("save good title")
     public String getGoodTitle() {
-        return boxPage.getTitleOfGood();
+        return cartPage.getTitleOfGood();
     }
 
+    @Step("move good to cart")
     public void moveGoodToCart() {
-        boxPage.moveGoodToCart();
+        cartPage.moveGoodToCart();
     }
 
+    @Step("get all titles goods in carts")
     public List<String> getAllTitleInCart() {
-        return boxPage.getAllTitleInCart()
+        cartPage.getAllTitleInCart().forEach(PageElement::waitForVisibility);
+        return cartPage.getAllTitleInCart()
                 .stream()
                 .map(PageElement::getText)
                 .collect(Collectors.toList());

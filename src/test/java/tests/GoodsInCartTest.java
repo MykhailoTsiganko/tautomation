@@ -1,37 +1,30 @@
 package tests;
 
 import bo.CartActions;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
 import config.PropertyFile;
-import factory.DriverFactory;
-import org.testng.annotations.AfterMethod;
+import modules.CartPageModule;
+import modules.CartValidatorModule;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import validators.CartValidator;
 
 import java.util.List;
 
-public class GoodsInCartTest {
+public class GoodsInCartTest extends BaseTest {
+    @Inject
     private CartActions cartActions;
+    @Inject
     private CartValidator validator;
 
-    @BeforeMethod
-    public void setUp(){
-        cartActions = new CartActions();
-        validator = new CartValidator();
-    }
-
     @Test(description = "move random good to cart")
-    public void moveGoodsToCart(){
+    public void moveGoodsToCart() {
         cartActions.openWebSite(PropertyFile.getProperty("website"));
         cartActions.choseRandomGoods();
         String title = cartActions.getGoodTitle();
         cartActions.moveGoodToCart();
         List<String> titleList = cartActions.getAllTitleInCart();
-        validator.verifySelectedGoodIsInCart(titleList,title);
-    }
-
-    @AfterMethod
-    public void tearDown(){
-        DriverFactory.quitDriver();
+        validator.verifySelectedGoodIsInCart(titleList, title);
     }
 }
