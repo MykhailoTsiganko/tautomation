@@ -1,70 +1,25 @@
 package elements;
 
-import factory.DriverFactory;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+public interface PageElement {
+    public String getAttribute(String atr);
 
-public class PageElement {
-    protected final int DEFAULT_VISIBILITY_TIME = 10;
-    protected WebElement element;
+    public boolean isDisplayed();
 
-    public PageElement(WebElement element) {
-        this.element = element;
-    }
+    public boolean isSelected();
 
-    public String getAttribute(String atr) {
-        return this.element.getAttribute(atr);
-    }
+    public void click();
 
-    public boolean isDisplayed() {
-        try {
-            return this.element.isDisplayed();
-        } catch (WebDriverException e) {
-            return false;
-        }
-    }
+    public void actionClick();
 
-    public boolean isSelected() {
-        return element.isSelected();
-    }
+    public void scriptClick();
 
-    public void click() {
-        this.element.click();
-    }
+    public void sendKeys(CharSequence... keys);
 
-    public void actionClick() {
-        Actions action = new Actions(DriverFactory.getDiver());
-        action.click(this.element).build().perform();
-    }
+    public void clear();
 
-    public void scriptClick() {
-        JavascriptExecutor executor = (JavascriptExecutor) DriverFactory.getDiver();
-        executor.executeScript("arguments[0].click();", element);
-    }
+    public String getText();
 
-    public void sendKeys(CharSequence... keys) {
-        this.element.sendKeys(keys);
-    }
+    public void waitForVisibility();
 
-    public void clear() {
-        this.element.clear();
-    }
-
-    public String getText() {
-        return this.element.getText();
-    }
-
-    public void waitForVisibility() {
-        new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
-                .until(ExpectedConditions.visibilityOf(element));
-    }
-
-    public void waitForClickable() {
-        new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
-                .until(ExpectedConditions.elementToBeClickable(element));
-    }
+    public void waitForClickable();
 }

@@ -16,10 +16,10 @@ import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
     private static WebDriver DRIVER;
-    private static final long implicitlyWait = 25;
+    private static final int implicitlyWait = 25;
 
-    private static void setWait(WebDriver driver) {
-        driver.manage().timeouts().implicitlyWait(implicitlyWait, TimeUnit.SECONDS);
+    private static void setWait(WebDriver driver, int time) {
+        driver.manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
 
     }
 
@@ -28,7 +28,7 @@ public class DriverFactory {
         WebDriver driver;
        driver = createWebDriver(device);
         driver.manage().window().maximize();
-        setWait(driver);
+        setWait(driver,implicitlyWait);
         DRIVER = driver;
     }
 
