@@ -1,7 +1,7 @@
 package page;
 
 import elements.PageElement;
-import elements.PageElementImpl;
+import factory.DriverFactory;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -9,13 +9,15 @@ import java.util.Random;
 
 public class CartWebPage extends AbstractBasePage{
     @FindBy(css = ".main-goods__title")
-    private List<PageElementImpl> listOfGoods;
+    private List<PageElement> listOfGoods;
     @FindBy(xpath = "//h1[@class='product__title']")
-    private PageElementImpl goodsTitle;
+    private PageElement goodsTitle;
     @FindBy(xpath = "//span[normalize-space()='Купити']//ancestor::button")
-    private PageElementImpl buyButton;
-    @FindBy(xpath = "//a[@class='cart-modal__title']")
-    private List<PageElementImpl> goodsInCart;
+    private PageElement buyButton;
+    @FindBy(css = ".js-rz-cart")
+    private PageElement cart;
+    @FindBy(xpath = "//a[@class='cart-product__title']")
+    private List<PageElement> goodsInCart;
 
 
     public void openRandomGood(){
@@ -24,14 +26,15 @@ public class CartWebPage extends AbstractBasePage{
         listOfGoods.get(i).click();
     }
     public String getTitleOfGood(){
-        goodsTitle.waitForVisibility();
-        return goodsTitle.getText();
+        return goodsTitle.waitForVisibility().getText();
     }
     public void moveGoodToCart(){
-        buyButton.waitForClickable();
-        buyButton.click();
+        buyButton.waitForClickable().click();
     }
-    public List<PageElementImpl> getAllTitleInCart(){
+    public void openCart(){
+        cart.click();
+    }
+    public List<PageElement> getAllTitleInCart(){
         return goodsInCart;
     }
 }

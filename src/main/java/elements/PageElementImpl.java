@@ -1,19 +1,22 @@
 package elements;
 
 import factory.DriverFactory;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class PageElementImpl  implements PageElement{
-    protected final int DEFAULT_VISIBILITY_TIME = 10;
-    protected WebElement element;
+import java.util.List;
 
-    public PageElementImpl(WebElement element) {
+public class PageElementImpl implements PageElement {
+    protected final int DEFAULT_VISIBILITY_TIME = 20;
+    protected WebElement element;
+    protected By locator;
+
+
+    public PageElementImpl(WebElement element, By by) {
         this.element = element;
+        this.locator = by;
     }
 
     public String getAttribute(String atr) {
@@ -23,7 +26,7 @@ public class PageElementImpl  implements PageElement{
     public boolean isDisplayed() {
         try {
             return this.element.isDisplayed();
-        } catch (WebDriverException e) {
+        } catch (NoSuchElementException e) {
             return false;
         }
     }
@@ -58,13 +61,71 @@ public class PageElementImpl  implements PageElement{
         return this.element.getText();
     }
 
-    public void waitForVisibility() {
-        new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
-                .until(ExpectedConditions.visibilityOf(element));
+    @Override
+    public void submit() {
+        element.submit();
     }
 
-    public void waitForClickable() {
-        new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
-                .until(ExpectedConditions.elementToBeClickable(element));
+    @Override
+    public String getTagName() {
+        return element.getTagName();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return element.isEnabled();
+    }
+
+    @Override
+    public List<WebElement> findElements(By by) {
+        return element.findElements(by);
+    }
+
+    @Override
+    public WebElement findElement(By by) {
+        return element.findElement(by);
+    }
+
+    @Override
+    public Point getLocation() {
+        return element.getLocation();
+    }
+
+    @Override
+    public Dimension getSize() {
+        return element.getSize();
+    }
+
+    @Override
+    public Rectangle getRect() {
+        return element.getRect();
+    }
+
+    @Override
+    public String getCssValue(String s) {
+        return element.getCssValue(s);
+    }
+
+    public PageElement waitForVisibility() {
+        DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
+                .until(ExpectedConditions.visibilityOf(element)));
+        return this;
+    }
+
+    public PageElement waitForClickable() {
+        DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
+                .until(ExpectedConditions.elementToBeClickable(element)));
+        return this;
+    }
+
+    public PageElement waitForPresenceOfElementLocated() {
+        DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
+                .until(ExpectedConditions.presenceOfElementLocated(locator)));
+        return this;
+    }
+
+    @Override
+    public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
+        return element.getScreenshotAs(outputType);
     }
 }

@@ -3,6 +3,7 @@ package factory;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.OperatingSystem;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -11,22 +12,28 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
+import java.util.function.Supplier;
 
 
 public class DriverFactory {
     private static WebDriver DRIVER;
     private static final int implicitlyWait = 25;
 
-    private static void setWait(WebDriver driver, int time) {
+    public static void setWait(WebDriver driver,int time) {
         driver.manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
 
+    }
+
+    public static void runWithZeroImplicitly(Supplier<WebElement> supplier) {
+        setWait(getDiver(),0);
+        supplier.get();
+        setWait(getDiver(),implicitlyWait);
     }
 
     private static void initDriver() {
         String device = System.getProperty("device");
         WebDriver driver;
-       driver = createWebDriver(device);
+        driver = createWebDriver(device);
         driver.manage().window().maximize();
         setWait(driver,implicitlyWait);
         DRIVER = driver;
@@ -41,7 +48,7 @@ public class DriverFactory {
             return new EdgeDriver();
         }
         ChromeOptions options = new ChromeOptions();
-        if("mobile".equals(device)) {
+        if ("mobile".equals(device)) {
             setChromeEmulation(options);
         }
         WebDriverManager.chromedriver().setup();

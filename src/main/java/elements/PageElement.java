@@ -1,25 +1,51 @@
 package elements;
 
-public interface PageElement {
-    public String getAttribute(String atr);
+import org.openqa.selenium.*;
 
-    public boolean isDisplayed();
+import java.util.List;
+import java.util.function.Supplier;
 
-    public boolean isSelected();
+public interface PageElement extends WebElement {
 
-    public void click();
+    void actionClick();
 
-    public void actionClick();
+    void scriptClick();
 
-    public void scriptClick();
+    void click();
 
-    public void sendKeys(CharSequence... keys);
+    void submit();
 
-    public void clear();
+    void sendKeys(CharSequence... var1);
 
-    public String getText();
+    void clear();
 
-    public void waitForVisibility();
+    String getTagName();
 
-    public void waitForClickable();
+    String getAttribute(String var1);
+
+    boolean isSelected();
+
+    boolean isEnabled();
+
+    String getText();
+
+    List<WebElement> findElements(By var1);
+
+    WebElement findElement(By var1);
+
+    boolean isDisplayed();
+
+    Point getLocation();
+
+    Dimension getSize();
+
+    Rectangle getRect();
+
+    String getCssValue(String var1);
+
+    PageElement waitForVisibility();
+
+    PageElement waitForClickable();
+
+    PageElement waitForPresenceOfElementLocated();
 }
