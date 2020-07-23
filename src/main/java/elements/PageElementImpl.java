@@ -106,19 +106,19 @@ public class PageElementImpl implements PageElement {
         return element.getCssValue(s);
     }
 
-    public PageElement waitForVisibility() {
+    public PageElement waitUntilVisible() {
         DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
                 .until(ExpectedConditions.visibilityOf(element)));
         return this;
     }
 
-    public PageElement waitForClickable() {
+    public PageElement waitUntilClickable() {
         DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
                 .until(ExpectedConditions.elementToBeClickable(element)));
         return this;
     }
 
-    public PageElement waitForPresenceOfElementLocated() {
+    public PageElement waitUntilPresent() {
         DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
                 .until(ExpectedConditions.presenceOfElementLocated(locator)));
         return this;

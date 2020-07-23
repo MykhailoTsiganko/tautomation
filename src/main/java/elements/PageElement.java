@@ -3,7 +3,6 @@ package elements;
 import org.openqa.selenium.*;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 public interface PageElement extends WebElement {
 
@@ -43,9 +42,9 @@ public interface PageElement extends WebElement {
 
     String getCssValue(String var1);
 
-    PageElement waitForVisibility();
+    PageElement waitUntilVisible();
 
-    PageElement waitForClickable();
+    PageElement waitUntilClickable();
 
-    PageElement waitForPresenceOfElementLocated();
+    PageElement waitUntilPresent();
 }

@@ -1,7 +1,6 @@
 package page;
 
 import elements.PageElement;
-import factory.DriverFactory;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -21,15 +20,15 @@ public class CartWebPage extends AbstractBasePage{
 
 
     public void openRandomGood(){
-        listOfGoods.forEach(PageElement::waitForClickable);
+        listOfGoods.forEach(PageElement::waitUntilClickable);
         int i = new Random().nextInt(listOfGoods.size());
         listOfGoods.get(i).click();
     }
     public String getTitleOfGood(){
-        return goodsTitle.waitForVisibility().getText();
+        return goodsTitle.waitUntilVisible().getText();
     }
     public void moveGoodToCart(){
-        buyButton.waitForClickable().click();
+        buyButton.waitUntilClickable().click();
     }
     public void openCart(){
         cart.click();

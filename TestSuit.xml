@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+    <suite name="Rozetka_Suit"> <!--parallel="methods" thread-count="2"-->
+        <listeners>
+        </listeners>
+        <test name="Good_in_Cart">
+            <classes>
+                <class name="tests.BaseTest"/>
+                <class name="tests.GoodsInCartTest"/>
+                <class name="tests.SearchByWordTest"/>
+            </classes>
+        </test>
+    </suite>
+

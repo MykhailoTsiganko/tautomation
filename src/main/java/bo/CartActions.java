@@ -39,7 +39,7 @@ public class CartActions {
 
     @Step("get all titles goods in carts")
     public List<String> getAllTitleInCart() {
-        cartPage.getAllTitleInCart().forEach(PageElement::waitForPresenceOfElementLocated);
+        cartPage.getAllTitleInCart().forEach(PageElement::waitUntilPresent);
         return cartPage.getAllTitleInCart()
                 .stream()
                 .map(PageElement::getText)
