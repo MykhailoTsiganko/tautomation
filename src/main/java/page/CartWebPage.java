@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 public class CartWebPage extends AbstractBasePage{
-    @FindBy(css = ".main-goods__title")
+    @FindBy(css = "//*[@class='tile__title']")
     private List<PageElement> listOfGoods;
     @FindBy(xpath = "//h1[@class='product__title']")
     private PageElement goodsTitle;
