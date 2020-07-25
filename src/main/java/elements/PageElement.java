@@ -1,70 +1,50 @@
 package elements;
 
-import factory.DriverFactory;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.*;
 
-public class PageElement {
-    protected final int DEFAULT_VISIBILITY_TIME = 10;
-    protected WebElement element;
+import java.util.List;
 
-    public PageElement(WebElement element) {
-        this.element = element;
-    }
+public interface PageElement extends WebElement {
 
-    public String getAttribute(String atr) {
-        return this.element.getAttribute(atr);
-    }
+    void actionClick();
 
-    public boolean isDisplayed() {
-        try {
-            return this.element.isDisplayed();
-        } catch (WebDriverException e) {
-            return false;
-        }
-    }
+    void scriptClick();
 
-    public boolean isSelected() {
-        return element.isSelected();
-    }
+    void click();
 
-    public void click() {
-        this.element.click();
-    }
+    void submit();
 
-    public void actionClick() {
-        Actions action = new Actions(DriverFactory.getDiver());
-        action.click(this.element).build().perform();
-    }
+    void sendKeys(CharSequence... var1);
 
-    public void scriptClick() {
-        JavascriptExecutor executor = (JavascriptExecutor) DriverFactory.getDiver();
-        executor.executeScript("arguments[0].click();", element);
-    }
+    void clear();
 
-    public void sendKeys(CharSequence... keys) {
-        this.element.sendKeys(keys);
-    }
+    String getTagName();
 
-    public void clear() {
-        this.element.clear();
-    }
+    String getAttribute(String var1);
 
-    public String getText() {
-        return this.element.getText();
-    }
+    boolean isSelected();
 
-    public void waitForVisibility() {
-        new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
-                .until(ExpectedConditions.visibilityOf(element));
-    }
+    boolean isEnabled();
 
-    public void waitForClickable() {
-        new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
-                .until(ExpectedConditions.elementToBeClickable(element));
-    }
+    String getText();
+
+    List<WebElement> findElements(By var1);
+
+    WebElement findElement(By var1);
+
+    boolean isDisplayed();
+
+    Point getLocation();
+
+    Dimension getSize();
+
+    Rectangle getRect();
+
+    String getCssValue(String var1);
+
+    PageElement waitUntilVisible();
+
+    PageElement waitUntilClickable();
+
+    PageElement waitUntilPresent();
 }

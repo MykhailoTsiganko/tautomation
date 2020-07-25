@@ -24,6 +24,7 @@ public class GoodsInCartTest extends BaseTest {
         cartActions.choseRandomGoods();
         String title = cartActions.getGoodTitle();
         cartActions.moveGoodToCart();
+        cartActions.openCart();
         List<String> titleList = cartActions.getAllTitleInCart();
         validator.verifySelectedGoodIsInCart(titleList, title);
     }

@@ -32,10 +32,14 @@ public class CartActions {
     public void moveGoodToCart() {
         cartPage.moveGoodToCart();
     }
+    @Step("open cart")
+    public void openCart(){
+        cartPage.openCart();
+    }
 
     @Step("get all titles goods in carts")
     public List<String> getAllTitleInCart() {
-        cartPage.getAllTitleInCart().forEach(PageElement::waitForVisibility);
+        cartPage.getAllTitleInCart().forEach(PageElement::waitUntilPresent);
         return cartPage.getAllTitleInCart()
                 .stream()
                 .map(PageElement::getText)

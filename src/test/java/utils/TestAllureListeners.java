@@ -43,7 +43,7 @@ public class TestAllureListeners implements ITestListener {
         screen();
         System.out.println("saved screenshot");
     }
-    @Attachment
+    @Attachment(value = "Page screenshot", type = "image/png")
     private byte[] screen(){
         return ((TakesScreenshot) DriverFactory.getDiver()).getScreenshotAs(OutputType.BYTES);
     }
