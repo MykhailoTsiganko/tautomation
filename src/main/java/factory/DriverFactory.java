@@ -24,12 +24,10 @@ import java.util.function.Supplier;
 
 
 public class DriverFactory {
-    private static final String chromeNode = "http://192.168.56.1:5557/wd/hub";
-    private static final String firefoxNode = "http://192.168.56.1:5556/wd/hub";
-    private static final String edgeNode = "http://192.168.56.1:5558/wd/hub";
+    private static final String clientConnections = "http://192.168.56.1:4444/wd/hub";
     private static final ThreadLocal<WebDriver> parallelDriver = new ThreadLocal<>();
     private static final int implicitlyWait = 25;
-    private static Supplier<ConfigProperties> configPropertiesProvider = Suppliers.memoize(()
+    private static final Supplier<ConfigProperties> configPropertiesProvider = Suppliers.memoize(()
             -> GuiceInjector.getBean(ConfigProperties.class));
 
     public static void setWait(WebDriver driver, int time) {
@@ -57,30 +55,25 @@ public class DriverFactory {
 
     private static WebDriver createWebDriver(String device) throws MalformedURLException {
         MutableCapabilities options;
-        String baseUrl;
-
-        if (configPropertiesProvider.get().getRemoteDriver()) {
+                if (configPropertiesProvider.get().getRemoteDriver()) {
             if ("firefox".equals(device)) {
                 WebDriverManager.firefoxdriver().setup();
                 options = new FirefoxOptions();
-                baseUrl = firefoxNode;
                 options.setCapability("browser", "firefox");
                 options.setCapability(FirefoxDriver.MARIONETTE, true);
             } else if ("edge".equals(device)) {
                 WebDriverManager.edgedriver().setup();
                 options = new EdgeOptions();
-                baseUrl = edgeNode;
             } else {
                 WebDriverManager.chromedriver().setup();
                 options = new ChromeOptions();
-                baseUrl = chromeNode;
                 if ("mobile".equals(device)) {
-                    setChromeEmulation(options);
+                    setChromeEmulation((ChromeOptions) options);
                 }
             }
             options.setCapability("platform", "WINDOWS");
             options.setCapability("newCommandTimeout", 5000);
-            return new RemoteWebDriver(new URL(baseUrl), options);
+            return new RemoteWebDriver(new URL(clientConnections), options);
         } else {
             if ("firefox".equals(device)) {
                 WebDriverManager.firefoxdriver().setup();
@@ -96,11 +89,11 @@ public class DriverFactory {
     }
 
 
-    private static void setChromeEmulation(MutableCapabilities options) {
+    private static void setChromeEmulation(ChromeOptions options) {
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", "iPad");
         String emulator = "mobileEmulation";
-        options.setCapability(emulator, mobileEmulation);
+        options.setExperimentalOption(emulator, mobileEmulation);
     }
 
     public static WebDriver getDiver() {

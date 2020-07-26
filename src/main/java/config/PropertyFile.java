@@ -27,11 +27,4 @@ public class PropertyFile {
         }
         return properties;
     }
-
-    public static String getProperty(String s) {
-        if (properties.isEmpty()) {
-            loadProperties();
-        }
-        return properties.getProperty(s);
-    }
 }

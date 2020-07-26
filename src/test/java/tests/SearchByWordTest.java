@@ -28,6 +28,5 @@ public class SearchByWordTest extends BaseTest {
         searchActions.findGoodsByText(word);
         List<String> listTitles = searchActions.getAllTitles();
         validation.verifyAllTitlesContainsWords(listTitles,word);
-
     }
 }
