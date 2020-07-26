@@ -4,7 +4,7 @@ import com.google.inject.AbstractModule;
 import validators.CartValidator;
 import validators.SearchValidation;
 
-public class CartValidatorModule extends AbstractModule {
+public class ValidatorModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(CartValidator.class);
