@@ -1,5 +1,6 @@
 package tests;
 
+import factory.DriverContainer;
 import factory.DriverFactory;
 import modules.PropertyModule;
 import modules.WebPageModule;
@@ -16,6 +17,6 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDown() {
-        DriverFactory.quitDriver();
+        DriverContainer.quitDriver();
     }
 }

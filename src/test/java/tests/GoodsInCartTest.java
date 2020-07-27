@@ -2,7 +2,6 @@ package tests;
 
 import bo.CartActions;
 import com.google.inject.Inject;
-import config.PropertyFile;
 import org.testng.annotations.Test;
 import validators.CartValidator;
 

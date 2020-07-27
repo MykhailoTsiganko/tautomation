@@ -3,7 +3,7 @@ package bo;
 import com.google.inject.Inject;
 import config.ConfigProperties;
 import elements.PageElement;
-import factory.DriverFactory;
+import factory.DriverContainer;
 import io.qameta.allure.Step;
 import page.CartWebPage;
 
@@ -18,7 +18,7 @@ public class CartActions {
 
     @Step("open website : {url}")
     public void openWebSite() {
-        DriverFactory.getDiver().get(configProperties.getBaseUrl());
+        DriverContainer.getDiver().get(configProperties.getBaseUrl());
     }
 
     @Step("select random good from main page and open it")
@@ -35,8 +35,9 @@ public class CartActions {
     public void moveGoodToCart() {
         cartPage.moveGoodToCart();
     }
+
     @Step("open cart")
-    public void openCart(){
+    public void openCart() {
         cartPage.openCart();
     }
 

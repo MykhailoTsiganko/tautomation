@@ -1,5 +1,6 @@
 package elements;
 
+import factory.DriverContainer;
 import factory.DriverFactory;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -20,7 +21,7 @@ public class PageElementImpl implements PageElement {
     }
 
     public WebElement getElement() {
-        return DriverFactory.getDiver().findElement(locator);
+        return DriverContainer.getDiver().findElement(locator);
     }
 
     public String getAttribute(String atr) {
@@ -44,12 +45,12 @@ public class PageElementImpl implements PageElement {
     }
 
     public void actionClick() {
-        Actions action = new Actions(DriverFactory.getDiver());
+        Actions action = new Actions(DriverContainer.getDiver());
         action.click(getElement()).build().perform();
     }
 
     public void scriptClick() {
-        JavascriptExecutor executor = (JavascriptExecutor) DriverFactory.getDiver();
+        JavascriptExecutor executor = (JavascriptExecutor) DriverContainer.getDiver();
         executor.executeScript("arguments[0].click();", getElement());
     }
 
@@ -111,19 +112,19 @@ public class PageElementImpl implements PageElement {
     }
 
     public PageElement waitUntilVisible() {
-        DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
+        DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverContainer.getDiver(), DEFAULT_VISIBILITY_TIME)
                 .until(ExpectedConditions.visibilityOf(getElement())));
         return this;
     }
 
     public PageElement waitUntilClickable() {
-        DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
+        DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverContainer.getDiver(), DEFAULT_VISIBILITY_TIME)
                 .until(ExpectedConditions.elementToBeClickable(getElement())));
         return this;
     }
 
     public PageElement waitUntilPresent() {
-        DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
+        DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverContainer.getDiver(), DEFAULT_VISIBILITY_TIME)
                 .until(ExpectedConditions.presenceOfElementLocated(locator)));
         return this;
     }

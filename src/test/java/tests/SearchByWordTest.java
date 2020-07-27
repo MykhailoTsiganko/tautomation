@@ -2,7 +2,6 @@ package tests;
 
 import bo.SearchActions;
 import com.google.inject.Inject;
-import config.PropertyFile;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import validators.SearchValidation;
