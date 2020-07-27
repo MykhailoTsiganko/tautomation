@@ -55,7 +55,7 @@ public class DriverFactory {
 
     private static WebDriver createWebDriver(String device) throws MalformedURLException {
         MutableCapabilities options;
-                if (configPropertiesProvider.get().getRemoteDriver()) {
+          if (configPropertiesProvider.get().getRemoteDriver()) {
             if ("firefox".equals(device)) {
                 WebDriverManager.firefoxdriver().setup();
                 options = new FirefoxOptions();
@@ -93,6 +93,7 @@ public class DriverFactory {
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", "iPad");
         String emulator = "mobileEmulation";
+        ((ChromeOptions) options).setExperimentalOption(emulator,mobileEmulation);
         options.setExperimentalOption(emulator, mobileEmulation);
     }
 

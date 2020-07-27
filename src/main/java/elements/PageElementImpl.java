@@ -19,61 +19,65 @@ public class PageElementImpl implements PageElement {
         this.locator = by;
     }
 
+    public WebElement getElement() {
+        return DriverFactory.getDiver().findElement(locator);
+    }
+
     public String getAttribute(String atr) {
-        return this.element.getAttribute(atr);
+        return getElement().getAttribute(atr);
     }
 
     public boolean isDisplayed() {
         try {
-            return this.element.isDisplayed();
+            return getElement().isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
         }
     }
 
     public boolean isSelected() {
-        return element.isSelected();
+        return getElement().isSelected();
     }
 
     public void click() {
-        this.element.click();
+        this.getElement().click();
     }
 
     public void actionClick() {
         Actions action = new Actions(DriverFactory.getDiver());
-        action.click(this.element).build().perform();
+        action.click(getElement()).build().perform();
     }
 
     public void scriptClick() {
         JavascriptExecutor executor = (JavascriptExecutor) DriverFactory.getDiver();
-        executor.executeScript("arguments[0].click();", element);
+        executor.executeScript("arguments[0].click();", getElement());
     }
 
     public void sendKeys(CharSequence... keys) {
-        this.element.sendKeys(keys);
+        getElement().sendKeys(keys);
     }
 
     public void clear() {
-        this.element.clear();
+        getElement().clear();
     }
 
     public String getText() {
-        return this.element.getText();
+        return getElement().getText();
     }
 
     @Override
     public void submit() {
-        element.submit();
+        getElement().submit();
     }
 
     @Override
     public String getTagName() {
-        return element.getTagName();
+        return getElement().getTagName();
     }
 
     @Override
     public boolean isEnabled() {
-        return element.isEnabled();
+        return getElement().isEnabled();
     }
 
     @Override
@@ -88,33 +92,33 @@ public class PageElementImpl implements PageElement {
 
     @Override
     public Point getLocation() {
-        return element.getLocation();
+        return getElement().getLocation();
     }
 
     @Override
     public Dimension getSize() {
-        return element.getSize();
+        return getElement().getSize();
     }
 
     @Override
     public Rectangle getRect() {
-        return element.getRect();
+        return getElement().getRect();
     }
 
     @Override
     public String getCssValue(String s) {
-        return element.getCssValue(s);
+        return getElement().getCssValue(s);
     }
 
     public PageElement waitUntilVisible() {
         DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
-                .until(ExpectedConditions.visibilityOf(element)));
+                .until(ExpectedConditions.visibilityOf(getElement())));
         return this;
     }
 
     public PageElement waitUntilClickable() {
         DriverFactory.runWithZeroImplicitly(() -> new WebDriverWait(DriverFactory.getDiver(), DEFAULT_VISIBILITY_TIME)
-                .until(ExpectedConditions.elementToBeClickable(element)));
+                .until(ExpectedConditions.elementToBeClickable(getElement())));
         return this;
     }
 
