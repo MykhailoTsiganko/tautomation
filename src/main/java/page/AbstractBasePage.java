@@ -6,10 +6,8 @@ import factory.DriverProvider;
 import org.openqa.selenium.support.PageFactory;
 
 public class AbstractBasePage {
-    private DriverProvider provider;
 
     protected AbstractBasePage() {
-        provider = DriverFactory::getDiver;
-        PageFactory.initElements(new ElementDecorator(provider), this);
+        PageFactory.initElements(new ElementDecorator(DriverFactory::getDiver), this);
     }
 }
