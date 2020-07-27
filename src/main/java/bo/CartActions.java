@@ -1,9 +1,7 @@
 package bo;
 
 import com.google.inject.Inject;
-import config.ConfigProperties;
 import elements.PageElement;
-import factory.DriverContainer;
 import io.qameta.allure.Step;
 import page.CartWebPage;
 
@@ -13,13 +11,6 @@ import java.util.stream.Collectors;
 public class CartActions {
     @Inject
     private CartWebPage cartPage;
-    @Inject
-    private ConfigProperties configProperties;
-
-    @Step("open website : {url}")
-    public void openWebSite() {
-        DriverContainer.getDiver().get(configProperties.getBaseUrl());
-    }
 
     @Step("select random good from main page and open it")
     public void choseRandomGoods() {

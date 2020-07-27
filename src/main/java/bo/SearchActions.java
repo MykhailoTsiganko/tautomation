@@ -3,7 +3,6 @@ package bo;
 import com.google.inject.Inject;
 import config.ConfigProperties;
 import elements.PageElement;
-import factory.DriverContainer;
 import io.qameta.allure.Step;
 import page.SearchPage;
 
@@ -15,11 +14,6 @@ public class SearchActions {
     private SearchPage searchPage;
     @Inject
     private ConfigProperties configProperties;
-
-    @Step("open website : {url}")
-    public void openWebSite() {
-        DriverContainer.getDiver().get(configProperties.getBaseUrl());
-    }
 
     @Step("find goods by word : {text}")
     public void findGoodsByText(String text) {
