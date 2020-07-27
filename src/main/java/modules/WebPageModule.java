@@ -1,6 +1,7 @@
 package modules;
 
 import bo.CartActions;
+import bo.CommonActions;
 import bo.SearchActions;
 import com.google.inject.AbstractModule;
 import page.CartWebPage;
@@ -13,5 +14,6 @@ public class WebPageModule extends AbstractModule {
         bind(CartWebPage.class);
         bind(SearchActions.class);
         bind(SearchPage.class);
+        bind(CommonActions.class);
     }
 }

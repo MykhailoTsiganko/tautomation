@@ -1,5 +1,8 @@
 package tests;
 
+import bo.CommonActions;
+import com.google.inject.Inject;
+import factory.DriverContainer;
 import factory.DriverFactory;
 import modules.PropertyModule;
 import modules.WebPageModule;
@@ -13,9 +16,11 @@ import utils.TestAllureListeners;
         ValidatorModule.class})
 @Listeners(TestAllureListeners.class)
 public class BaseTest {
+    @Inject
+    protected CommonActions commonActions;
 
     @AfterMethod
     public void tearDown() {
-        DriverFactory.quitDriver();
+        DriverContainer.quitDriver();
     }
 }

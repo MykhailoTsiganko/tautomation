@@ -1,6 +1,7 @@
 package utils;
 
 
+import factory.DriverContainer;
 import factory.DriverFactory;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
@@ -11,11 +12,9 @@ import org.testng.ITestResult;
 
 
 public class TestAllureListeners implements ITestListener {
-
     private static String getTestMethodName(ITestResult iTestResult) {
         return iTestResult.getMethod().getConstructorOrMethod().getName();
     }
-
 
     @Override
     public void onStart(ITestContext iTestContext) {
@@ -42,9 +41,10 @@ public class TestAllureListeners implements ITestListener {
         screen();
         System.out.println("saved screenshot");
     }
+
     @Attachment(value = "Page screenshot", type = "image/png")
-    private byte[] screen(){
-        return ((TakesScreenshot) DriverFactory.getDiver()).getScreenshotAs(OutputType.BYTES);
+    private byte[] screen() {
+        return ((TakesScreenshot) DriverContainer.getDiver()).getScreenshotAs(OutputType.BYTES);
     }
 
 

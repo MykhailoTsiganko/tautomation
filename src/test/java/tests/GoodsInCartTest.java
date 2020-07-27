@@ -2,7 +2,6 @@ package tests;
 
 import bo.CartActions;
 import com.google.inject.Inject;
-import config.PropertyFile;
 import org.testng.annotations.Test;
 import validators.CartValidator;
 
@@ -16,7 +15,7 @@ public class GoodsInCartTest extends BaseTest {
 
     @Test(description = "move random good to cart")
     public void moveGoodsToCart() {
-        cartActions.openWebSite();
+        commonActions.openWebSite();
         cartActions.choseRandomGoods();
         String title = cartActions.getGoodTitle();
         cartActions.moveGoodToCart();

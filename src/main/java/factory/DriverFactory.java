@@ -25,35 +25,34 @@ import java.util.function.Supplier;
 
 public class DriverFactory {
     private static final String clientConnections = "http://192.168.56.1:4444/wd/hub";
-    private static final ThreadLocal<WebDriver> parallelDriver = new ThreadLocal<>();
     private static final int implicitlyWait = 25;
     private static final Supplier<ConfigProperties> configPropertiesProvider = Suppliers.memoize(()
             -> GuiceInjector.getBean(ConfigProperties.class));
 
-    public static void setWait(WebDriver driver, int time) {
+    private static void setWait(WebDriver driver, int time) {
         driver.manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
     }
 
     public static void runWithZeroImplicitly(Supplier<WebElement> supplier) {
-        setWait(getDiver(), 0);
+        setWait(DriverContainer.getDiver(), 0);
         supplier.get();
-        setWait(getDiver(), implicitlyWait);
+        setWait(DriverContainer.getDiver(), implicitlyWait);
     }
 
-    private static void initDriver() {
+    public static WebDriver createDriver() {
         String device = configPropertiesProvider.get().getBrowserName();
         WebDriver driver = null;
         try {
-            driver = createWebDriver(device);
+            driver = initWebDriver(device);
         } catch (MalformedURLException e) {
             System.out.println("the built-in URL class encounters an invalid URL");
         }
         driver.manage().window().maximize();
         setWait(driver, implicitlyWait);
-        parallelDriver.set(driver);
+       return driver;
     }
 
-    private static WebDriver createWebDriver(String device) throws MalformedURLException {
+    private static WebDriver initWebDriver(String device) throws MalformedURLException {
         MutableCapabilities options;
           if (configPropertiesProvider.get().getRemoteDriver()) {
             if ("firefox".equals(device)) {
@@ -88,30 +87,10 @@ public class DriverFactory {
         }
     }
 
-
     private static void setChromeEmulation(ChromeOptions options) {
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", "iPad");
         String emulator = "mobileEmulation";
-        ((ChromeOptions) options).setExperimentalOption(emulator,mobileEmulation);
         options.setExperimentalOption(emulator, mobileEmulation);
-    }
-
-    public static WebDriver getDiver() {
-        if (parallelDriver.get() == null) {
-            initDriver();
-        }
-        return parallelDriver.get();
-    }
-
-    public static void refresh() {
-        parallelDriver.get().navigate().refresh();
-    }
-
-    public static void quitDriver() {
-        if (parallelDriver.get() != null) {
-            parallelDriver.get().quit();
-            parallelDriver.remove();
-        }
     }
 }
