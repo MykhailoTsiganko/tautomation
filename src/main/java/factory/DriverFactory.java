@@ -39,11 +39,11 @@ public class DriverFactory {
         setWait(DriverContainer.getDiver(), implicitlyWait);
     }
 
-    public static WebDriver initDriver() {
+    public static WebDriver createDriver() {
         String device = configPropertiesProvider.get().getBrowserName();
         WebDriver driver = null;
         try {
-            driver = createWebDriver(device);
+            driver = initWebDriver(device);
         } catch (MalformedURLException e) {
             System.out.println("the built-in URL class encounters an invalid URL");
         }
@@ -52,7 +52,7 @@ public class DriverFactory {
        return driver;
     }
 
-    private static WebDriver createWebDriver(String device) throws MalformedURLException {
+    private static WebDriver initWebDriver(String device) throws MalformedURLException {
         MutableCapabilities options;
           if (configPropertiesProvider.get().getRemoteDriver()) {
             if ("firefox".equals(device)) {
@@ -91,7 +91,6 @@ public class DriverFactory {
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", "iPad");
         String emulator = "mobileEmulation";
-        ((ChromeOptions) options).setExperimentalOption(emulator,mobileEmulation);
         options.setExperimentalOption(emulator, mobileEmulation);
     }
 }

@@ -7,7 +7,7 @@ public class DriverContainer {
 
     public static WebDriver getDiver() {
         if (parallelDriver.get() == null) {
-            parallelDriver.set(DriverFactory.initDriver());
+            parallelDriver.set(DriverFactory.createDriver());
         }
         return parallelDriver.get();
     }
