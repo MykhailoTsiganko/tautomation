@@ -5,7 +5,6 @@ import org.openqa.selenium.*;
 import java.util.List;
 
 public interface PageElement extends WebElement {
-
     void actionClick();
 
     void scriptClick();

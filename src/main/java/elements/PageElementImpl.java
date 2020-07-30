@@ -13,6 +13,8 @@ public class PageElementImpl implements PageElement {
     protected final int DEFAULT_VISIBILITY_TIME = 20;
     protected WebElement element;
     protected By locator;
+    private boolean isSingle;
+
 
 
     public PageElementImpl(WebElement element, By by) {
@@ -21,7 +23,14 @@ public class PageElementImpl implements PageElement {
     }
 
     public WebElement getElement() {
-        return DriverContainer.getDiver().findElement(locator);
+        if (isSingle) {
+            return DriverContainer.getDiver().findElement(locator);
+        }
+        return element;
+    }
+
+    public void setSingle(boolean single) {
+        isSingle = single;
     }
 
     public String getAttribute(String atr) {
@@ -41,7 +50,7 @@ public class PageElementImpl implements PageElement {
     }
 
     public void click() {
-        this.getElement().click();
+        getElement().click();
     }
 
     public void actionClick() {
@@ -131,6 +140,6 @@ public class PageElementImpl implements PageElement {
 
     @Override
     public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
-        return element.getScreenshotAs(outputType);
+        return getElement().getScreenshotAs(outputType);
     }
 }
