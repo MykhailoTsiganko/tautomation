@@ -7,7 +7,6 @@ import io.qameta.allure.Step;
 import page.SearchPage;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SearchActions {
     @Inject
@@ -23,6 +22,6 @@ public class SearchActions {
 
     @Step("get all titles of fined goods")
     public List<String> getAllTitles() {
-        return searchPage.getListOfFinedGoods().stream().map(PageElement::getText).collect(Collectors.toList());
+        return searchPage.getListOfFinedGoods().getTexts();
     }
 }

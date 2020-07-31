@@ -5,8 +5,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class PageElementList implements List<PageElement> {
+public class PageElementList implements MyList<PageElement> {
     private List<PageElement> elements;
     private final By locator;
 
@@ -14,11 +15,22 @@ public class PageElementList implements List<PageElement> {
         this.elements = new ArrayList<>();
         this.locator = locator;
     }
-    public List<PageElement> getElements(){
+
+    private List<PageElement> getElements() {
         List<WebElement> webElements = DriverContainer.getDiver().findElements(locator);
         elements = new ArrayList<>();
-        webElements.forEach(el -> elements.add(new PageElementImpl(el,locator)));
+        webElements.forEach(el -> elements.add(new PageElementImpl(el, locator)));
         return elements;
+    }
+
+
+    public List<String> getTexts() {
+        return getElements().stream().map(PageElement::getText).collect(Collectors.toList());
+    }
+
+
+    public PageElement getPageElement(int index) {
+        return getElements().get(index);
     }
 
     @Override
@@ -41,7 +53,7 @@ public class PageElementList implements List<PageElement> {
         return new PageElementIterator();
     }
 
-    private class PageElementIterator implements Iterator {
+    private class PageElementIterator implements Iterator<PageElement> {
         Iterator<PageElement> iterator = getElements().iterator();
 
         @Override
@@ -50,7 +62,7 @@ public class PageElementList implements List<PageElement> {
         }
 
         @Override
-        public Object next() {
+        public PageElement next() {
             return this.iterator.next();
         }
 
@@ -72,7 +84,7 @@ public class PageElementList implements List<PageElement> {
 
     @Override
     public boolean add(PageElement element) {
-        return getElements().add(element);
+        return elements.add(element);
     }
 
     @Override
@@ -91,11 +103,6 @@ public class PageElementList implements List<PageElement> {
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends PageElement> c) {
-        return getElements().addAll(c);
-    }
-
-    @Override
     public boolean removeAll(Collection<?> c) {
         return getElements().removeAll(c);
     }
@@ -108,50 +115,5 @@ public class PageElementList implements List<PageElement> {
     @Override
     public void clear() {
         elements.clear();
-    }
-
-    @Override
-    public PageElement get(int index) {
-        return getElements().get(index);
-    }
-
-    @Override
-    public PageElement set(int index, PageElement element) {
-        return elements.set(index, element);
-    }
-
-    @Override
-    public void add(int index, PageElement element) {
-        elements.add(index, element);
-    }
-
-    @Override
-    public PageElement remove(int index) {
-        return getElements().remove(index);
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        return getElements().indexOf(o);
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        return getElements().lastIndexOf(o);
-    }
-
-    @Override
-    public ListIterator<PageElement> listIterator() {
-        return null;
-    }
-
-    @Override
-    public ListIterator<PageElement> listIterator(int index) {
-        return null;
-    }
-
-    @Override
-    public List<PageElement> subList(int fromIndex, int toIndex) {
-        return null;
     }
 }

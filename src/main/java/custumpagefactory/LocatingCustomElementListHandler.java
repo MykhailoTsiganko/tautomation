@@ -4,9 +4,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
+import elements.MyList;
 import elements.PageElement;
 import elements.PageElementImpl;
 import elements.PageElementList;
@@ -32,11 +32,11 @@ public class LocatingCustomElementListHandler implements InvocationHandler {
         List<WebElement> elements = locator.findElements();
         AbstractAnnotations annotations = (AbstractAnnotations) (new Annotations(field));
         By by = annotations.buildBy();
-        List<PageElement> customs = new PageElementList(by);
+        MyList<PageElement> customs = new PageElementList(by);
         elements.forEach(el -> customs.add(WrapperFactory.createInstance(clazz, el, field)));
         try {
             return method.invoke(customs, objects);
-        } catch (InvocationTargetException e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             throw e.getCause();
         }
     }

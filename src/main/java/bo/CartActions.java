@@ -6,7 +6,6 @@ import io.qameta.allure.Step;
 import page.CartWebPage;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CartActions {
     @Inject
@@ -35,9 +34,6 @@ public class CartActions {
     @Step("get all titles goods in carts")
     public List<String> getAllTitleInCart() {
         cartPage.getAllTitleInCart().forEach(PageElement::waitUntilPresent);
-        return cartPage.getAllTitleInCart()
-                .stream()
-                .map(PageElement::getText)
-                .collect(Collectors.toList());
+        return cartPage.getAllTitleInCart().getTexts();
     }
 }

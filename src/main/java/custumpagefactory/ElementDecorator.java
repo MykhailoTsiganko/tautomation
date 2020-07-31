@@ -5,19 +5,15 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
-import java.util.List;
+import java.util.Collection;
 
+import elements.MyList;
 import elements.PageElement;
 import elements.PageElementImpl;
 import factory.DriverProvider;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WrapsElement;
-import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
-import org.openqa.selenium.support.pagefactory.Annotations;
 import org.openqa.selenium.support.pagefactory.DefaultFieldDecorator;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
@@ -36,7 +32,7 @@ public class ElementDecorator extends DefaultFieldDecorator {
             if (locator == null) {
                 return null;
             }
-            if (List.class.isAssignableFrom(field.getType())) {
+            if (Collection.class.isAssignableFrom(field.getType())) {
                 return createList(loader, locator, decoratableClass, field);
             }
             return createElement(loader, locator, decoratableClass, field);
@@ -47,7 +43,7 @@ public class ElementDecorator extends DefaultFieldDecorator {
     @SuppressWarnings("unchecked")
     private Class<PageElementImpl> decoratableClass(Field field) {
         Class<?> clazz = field.getType();
-        if (List.class.isAssignableFrom(clazz)) {
+        if (Collection.class.isAssignableFrom(clazz)) {
             if (field.getAnnotation(FindBy.class) == null && field.getAnnotation(FindBys.class) == null) {
                 return null;
             }
@@ -73,10 +69,9 @@ public class ElementDecorator extends DefaultFieldDecorator {
     }
 
     @SuppressWarnings("unchecked")
-    protected List<PageElement> createList(ClassLoader loader, ElementLocator locator, Class<PageElementImpl> clazz, Field field) {
+    protected MyList<PageElement> createList(ClassLoader loader, ElementLocator locator, Class<PageElementImpl> clazz, Field field) {
         InvocationHandler handler = new LocatingCustomElementListHandler(locator, clazz, field);
-        List<PageElement> elements = (List<PageElement>) Proxy.newProxyInstance(loader, new Class[]{List.class}, handler);
-        return elements;
+        return  (MyList<PageElement>) Proxy.newProxyInstance(loader, new Class[]{MyList.class}, handler);
     }
 
     @SuppressWarnings("unused")
@@ -87,5 +82,4 @@ public class ElementDecorator extends DefaultFieldDecorator {
             throw new AssertionError("WebElement can't be represented as " + clazz);
         }
     }
-
 }
