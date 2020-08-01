@@ -5,14 +5,13 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
-import java.util.List;
+import java.util.Collection;
 
+import elements.PageElementCollection;
 import elements.PageElement;
 import elements.PageElementImpl;
 import factory.DriverProvider;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WrapsElement;
-import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.pagefactory.DefaultFieldDecorator;
@@ -33,10 +32,10 @@ public class ElementDecorator extends DefaultFieldDecorator {
             if (locator == null) {
                 return null;
             }
-            if (List.class.isAssignableFrom(field.getType())) {
-                return createList(loader, locator, decoratableClass,field);
+            if (PageElementCollection.class.isAssignableFrom(field.getType())) {
+                return createList(loader, locator, decoratableClass, field);
             }
-            return createElement(loader, locator, decoratableClass,field);
+            return createElement(loader, locator, decoratableClass, field);
         }
         return super.decorate(loader, field);
     }
@@ -44,7 +43,7 @@ public class ElementDecorator extends DefaultFieldDecorator {
     @SuppressWarnings("unchecked")
     private Class<PageElementImpl> decoratableClass(Field field) {
         Class<?> clazz = field.getType();
-        if (List.class.isAssignableFrom(clazz)) {
+        if (PageElementCollection.class.isAssignableFrom(clazz)) {
             if (field.getAnnotation(FindBy.class) == null && field.getAnnotation(FindBys.class) == null) {
                 return null;
             }
@@ -62,16 +61,17 @@ public class ElementDecorator extends DefaultFieldDecorator {
         }
     }
 
-    protected PageElementImpl createElement(ClassLoader loader, ElementLocator locator, Class<PageElementImpl> clazz,Field field) {
+    protected PageElement createElement(ClassLoader loader, ElementLocator locator, Class<PageElementImpl> clazz, Field field) {
         WebElement proxy = proxyForLocator(loader, locator);
-        return WrapperFactory.createInstance(clazz, proxy, field);
+        PageElementImpl element = WrapperFactory.createInstance(clazz, proxy, field);
+        element.setSingle(true);
+        return element;
     }
 
     @SuppressWarnings("unchecked")
-    protected List<PageElementImpl> createList(ClassLoader loader, ElementLocator locator, Class<PageElementImpl> clazz,Field field) {
-        InvocationHandler handler = new LocatingCustomElementListHandler(locator, clazz,field);
-        List<PageElementImpl> elements = (List<PageElementImpl>) Proxy.newProxyInstance(loader, new Class[]{List.class}, handler);
-        return elements;
+    protected PageElementCollection<PageElement> createList(ClassLoader loader, ElementLocator locator, Class<PageElementImpl> clazz, Field field) {
+        InvocationHandler handler = new LocatingCustomElementListHandler(locator, clazz, field);
+        return  (PageElementCollection<PageElement>) Proxy.newProxyInstance(loader, new Class[]{PageElementCollection.class}, handler);
     }
 
     @SuppressWarnings("unused")
@@ -82,5 +82,4 @@ public class ElementDecorator extends DefaultFieldDecorator {
             throw new AssertionError("WebElement can't be represented as " + clazz);
         }
     }
-
 }
