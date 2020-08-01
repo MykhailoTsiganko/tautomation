@@ -1,6 +1,6 @@
-package page;
+package pages;
 
-import elements.MyList;
+import elements.PageElementCollection;
 import elements.PageElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class CartWebPage extends AbstractBasePage {
     @FindBy(xpath = "//*[@class='tile__title']")
-    private MyList<PageElement> listOfGoods;
+    private PageElementCollection<PageElement> listOfGoods;
     @FindBy(xpath = "//h1[@class='product__title']")
     private PageElement goodsTitle;
     @FindBy(xpath = "//span[normalize-space()='Купити']//ancestor::button")
@@ -16,12 +16,12 @@ public class CartWebPage extends AbstractBasePage {
     @FindBy(css = ".js-rz-cart")
     private PageElement cart;
     @FindBy(xpath = "//a[@class='cart-product__title']")
-    private MyList<PageElement> goodsInCart;
+    private PageElementCollection<PageElement> goodsInCart;
 
     public void openRandomGood() {
         listOfGoods.forEach(PageElement::waitUntilClickable);
         int i = new Random().nextInt(listOfGoods.size());
-        listOfGoods.getPageElement(i).click();
+        listOfGoods.get(i).click();
     }
 
     public String getTitleOfGood() {
@@ -36,7 +36,7 @@ public class CartWebPage extends AbstractBasePage {
         cart.click();
     }
 
-    public MyList<PageElement> getAllTitleInCart() {
+    public PageElementCollection<PageElement> getAllTitleInCart() {
         return goodsInCart;
     }
 }

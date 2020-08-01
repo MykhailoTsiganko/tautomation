@@ -4,8 +4,8 @@ import bo.CartActions;
 import bo.CommonActions;
 import bo.SearchActions;
 import com.google.inject.AbstractModule;
-import page.CartWebPage;
-import page.SearchPage;
+import pages.CartWebPage;
+import pages.SearchPage;
 
 public class WebPageModule extends AbstractModule {
     @Override

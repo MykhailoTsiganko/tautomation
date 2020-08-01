@@ -2,9 +2,8 @@ package bo;
 
 import com.google.inject.Inject;
 import config.ConfigProperties;
-import elements.PageElement;
 import io.qameta.allure.Step;
-import page.SearchPage;
+import pages.SearchPage;
 
 import java.util.List;
 

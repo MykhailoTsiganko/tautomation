@@ -1,6 +1,6 @@
-package page;
+package pages;
 
-import elements.MyList;
+import elements.PageElementCollection;
 import elements.PageElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +9,7 @@ public class SearchPage extends AbstractBasePage {
     @FindBy(xpath = "//input[@placeholder]")
     private PageElement inputColumeForSearch;
     @FindBy(xpath = "//span[@class='goods-tile__title']")
-    private MyList<PageElement> listOfFinedGoods;
+    private PageElementCollection<PageElement> listOfFinedGoods;
 
     public void writeTextToColume(String text) {
         inputColumeForSearch.sendKeys(text);
@@ -19,7 +19,7 @@ public class SearchPage extends AbstractBasePage {
         inputColumeForSearch.sendKeys(Keys.ENTER);
     }
 
-    public MyList<PageElement> getListOfFinedGoods() {
+    public PageElementCollection<PageElement> getListOfFinedGoods() {
         listOfFinedGoods.forEach(PageElement::waitUntilVisible);
         return listOfFinedGoods;
     }

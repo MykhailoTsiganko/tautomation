@@ -1,4 +1,4 @@
-package page;
+package pages;
 
 import custumpagefactory.ElementDecorator;
 import factory.DriverContainer;

@@ -7,7 +7,7 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
-import elements.MyList;
+import elements.PageElementCollection;
 import elements.PageElement;
 import elements.PageElementImpl;
 import factory.DriverProvider;
@@ -32,7 +32,7 @@ public class ElementDecorator extends DefaultFieldDecorator {
             if (locator == null) {
                 return null;
             }
-            if (Collection.class.isAssignableFrom(field.getType())) {
+            if (PageElementCollection.class.isAssignableFrom(field.getType())) {
                 return createList(loader, locator, decoratableClass, field);
             }
             return createElement(loader, locator, decoratableClass, field);
@@ -43,7 +43,7 @@ public class ElementDecorator extends DefaultFieldDecorator {
     @SuppressWarnings("unchecked")
     private Class<PageElementImpl> decoratableClass(Field field) {
         Class<?> clazz = field.getType();
-        if (Collection.class.isAssignableFrom(clazz)) {
+        if (PageElementCollection.class.isAssignableFrom(clazz)) {
             if (field.getAnnotation(FindBy.class) == null && field.getAnnotation(FindBys.class) == null) {
                 return null;
             }
@@ -69,9 +69,9 @@ public class ElementDecorator extends DefaultFieldDecorator {
     }
 
     @SuppressWarnings("unchecked")
-    protected MyList<PageElement> createList(ClassLoader loader, ElementLocator locator, Class<PageElementImpl> clazz, Field field) {
+    protected PageElementCollection<PageElement> createList(ClassLoader loader, ElementLocator locator, Class<PageElementImpl> clazz, Field field) {
         InvocationHandler handler = new LocatingCustomElementListHandler(locator, clazz, field);
-        return  (MyList<PageElement>) Proxy.newProxyInstance(loader, new Class[]{MyList.class}, handler);
+        return  (PageElementCollection<PageElement>) Proxy.newProxyInstance(loader, new Class[]{PageElementCollection.class}, handler);
     }
 
     @SuppressWarnings("unused")

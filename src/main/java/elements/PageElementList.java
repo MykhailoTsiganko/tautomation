@@ -7,30 +7,32 @@ import org.openqa.selenium.WebElement;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PageElementList implements MyList<PageElement> {
-    private List<PageElement> elements;
+public class PageElementList implements PageElementCollection<PageElement> {
     private final By locator;
 
     public PageElementList(By locator) {
-        this.elements = new ArrayList<>();
         this.locator = locator;
     }
 
     private List<PageElement> getElements() {
         List<WebElement> webElements = DriverContainer.getDiver().findElements(locator);
-        elements = new ArrayList<>();
-        webElements.forEach(el -> elements.add(new PageElementImpl(el, locator)));
-        return elements;
+        List<PageElement> pageElementList = new ArrayList<>();
+        webElements.forEach(el -> pageElementList.add(new PageElementImpl(el, locator)));
+        return pageElementList;
     }
-
-
+    @Override
     public List<String> getTexts() {
         return getElements().stream().map(PageElement::getText).collect(Collectors.toList());
     }
 
-
-    public PageElement getPageElement(int index) {
+    @Override
+    public PageElement get(int index) {
         return getElements().get(index);
+    }
+
+    @Override
+    public <T> PageElement[] toArray(PageElement[] a) {
+        return new PageElement[0];
     }
 
     @Override
@@ -84,7 +86,7 @@ public class PageElementList implements MyList<PageElement> {
 
     @Override
     public boolean add(PageElement element) {
-        return elements.add(element);
+        return getElements().add(element);
     }
 
     @Override
@@ -114,6 +116,6 @@ public class PageElementList implements MyList<PageElement> {
 
     @Override
     public void clear() {
-        elements.clear();
+        getElements().clear();
     }
 }

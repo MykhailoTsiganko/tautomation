@@ -3,7 +3,7 @@ package bo;
 import com.google.inject.Inject;
 import elements.PageElement;
 import io.qameta.allure.Step;
-import page.CartWebPage;
+import pages.CartWebPage;
 
 import java.util.List;
 

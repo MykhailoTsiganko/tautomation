@@ -4,9 +4,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.List;
 
-import elements.MyList;
+import elements.PageElementCollection;
 import elements.PageElement;
 import elements.PageElementImpl;
 import elements.PageElementList;
@@ -29,11 +30,9 @@ public class LocatingCustomElementListHandler implements InvocationHandler {
     }
 
     public Object invoke(Object object, Method method, Object[] objects) throws Throwable {
-        List<WebElement> elements = locator.findElements();
         AbstractAnnotations annotations = (AbstractAnnotations) (new Annotations(field));
         By by = annotations.buildBy();
-        MyList<PageElement> customs = new PageElementList(by);
-        elements.forEach(el -> customs.add(WrapperFactory.createInstance(clazz, el, field)));
+        PageElementCollection<PageElement> customs = new PageElementList(by);
         try {
             return method.invoke(customs, objects);
         } catch (InvocationTargetException | IllegalAccessException e) {

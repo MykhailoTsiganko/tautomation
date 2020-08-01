@@ -16,7 +16,6 @@ public class PageElementImpl implements PageElement {
     private boolean isSingle;
 
 
-
     public PageElementImpl(WebElement element, By by) {
         this.element = element;
         this.locator = by;
